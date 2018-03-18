@@ -6,13 +6,13 @@ To run this file you need python 2+ and python chardet library
 ## Install pip on ubuntu:
 sudo apt-get update && sudo apt-get install -y git python-pip
 
-## Install chardet:
+## Install chardet python library:
 ```
 pip install --upgrade pip
 pip install chardet
 ```
 
-## Installation:
+## 2utf8 Installation:
 ```
 git clone git://github.com/mahoor13/2utf8
 chmod a+x ./2utf8/2utf8
