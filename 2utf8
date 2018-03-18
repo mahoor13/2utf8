@@ -1,0 +1,49 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+import sys, os, glob
+import codecs
+import chardet
+
+
+if len(sys.argv) > 1:
+	iFile = sys.argv[1]
+	if not os.path.isfile(iFile):
+		print("Input file not found")
+		sys.exit(2)
+	os.chdir(os.path.dirname(os.path.abspath(iFile)))
+	iFile = os.path.basename(iFile)
+
+if len(sys.argv) == 3:
+	oFile =  sys.argv[2]
+elif len(sys.argv) == 2:
+	video = glob.glob("*.mkv") + glob.glob("*.mp4") + glob.glob("*.m4v") + glob.glob("*.avi") + glob.glob("*.mpg") + glob.glob("*.mov") + glob.glob("*.wmv") + glob.glob("*.webm")
+	if video != []:
+		oFile = ('.').join(video[0].split('.')[:-1]) + '.srt'
+		if oFile == iFile:
+			tmp = iFile + '.bak' #('.').join(iFile.split('.')[:-1]) + '.ar.' + iFile.split('.')[-1]
+			os.rename(iFile, tmp)
+			iFile = tmp
+	else:
+		oFile = ('.').join(iFile.split('.')[:-1]) + '.utf8.' + iFile.split('.')[-1]
+else:
+	print("syntax: 2utf8 <input file> [<output file>]")
+	sys.exit(1)
+
+if os.path.isfile(oFile):
+	print(oFile + ' already exists')
+	sys.exit(2)
+
+with open(iFile, 'r') as f:
+	out = f.read()
+	stat = chardet.detect(out)
+	print(stat)
+	if stat['confidence'] < 0.75: #cp1256 for default encoding
+		print("Swiching to cp1256")
+		stat['encoding'] = "cp1256"
+	out = out.decode(stat['encoding']).encode('utf-8')
+
+print(oFile + " writen")
+with open(oFile, 'w') as f:
+	f.write(str(codecs.BOM_UTF8))
+	f.write(out)
