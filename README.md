@@ -4,7 +4,9 @@ Convert any .srt file with any encoding to utf-8 encoding
 To run this file you need python 2+ and python chardet library
 
 ## Install pip on ubuntu:
+```
 sudo apt-get update && sudo apt-get install -y git python-pip
+```
 
 ## Install chardet python library:
 ```
